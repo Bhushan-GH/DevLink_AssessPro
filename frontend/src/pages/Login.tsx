@@ -16,6 +16,7 @@ import {
   Alert,
   CircularProgress,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -31,11 +32,12 @@ const loginUser = async (data: LoginInput) => {
 
 export const Login: React.FC = () => {
   const { login } = useUserStore();
-
+  const navigate=useNavigate();
 const mutation = useMutation<any, Error, LoginInput>({
   mutationFn: loginUser,
   onSuccess: (data) => {
     login(data);
+    navigate('/collection',{ replace: true }); // redirect to collection page
     localStorage.setItem('token', data.token);
   },
 });
